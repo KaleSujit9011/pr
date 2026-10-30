@@ -7,8 +7,8 @@ from sklearn.model_selection import train_test_split
 df = pd.read_csv("gene_expression_medium_dataset.csv")
 df = df.drop(columns="Sample_ID")
 
-X = data.drop(columns="Class")
-y = data["Class"]
+X = df.drop(columns="Class")
+y = df["Class"]
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.25, random_state=42, stratify=y
 )
