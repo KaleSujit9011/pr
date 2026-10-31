@@ -1,17 +1,15 @@
-
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin
 
 url = "https://books.toscrape.com/"
-response = requests.get(url, timeout=15)
-response.raise_for_status()
+response = requests.get(url)
 soup = BeautifulSoup(response.text, "html.parser")
+products = soup.find_all("article", class_="product_pod")
 
-for product in soup.find_all("article", class_="product_pod"):
+for product in products:
     name = product.h3.a["title"]
-    price = product.find("p", class_="price_color").get_text(strip=True)
-    link = urljoin(url, product.h3.a["href"])
+    price = product.find("p", class_="price_color").text
+    link = product.h3.a["href"]
     print("Product:", name)
     print("Price:", price)
     print("Link:", link)
