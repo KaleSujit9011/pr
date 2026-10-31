@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("city_day.csv")
+df = pd.read_csv("DMV\city_day.csv")
 df["Date"] = pd.to_datetime(df["Date"])
 
 print(df.head())
@@ -42,14 +42,9 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
 
-df["PM25Group"] = pd.qcut(df["PM2.5"], q=3, labels=["Lower third", "Middle third", "Upper third"])
-print(df.groupby("PM25Group", observed=True)["AQI"].agg(["count", "mean"]))
-df.boxplot(column="AQI", by="PM25Group", figsize=(8, 5))
-plt.title("AQI by PM2.5 Level")
-plt.suptitle("")
-plt.xlabel("Relative PM2.5 Level")
-plt.ylabel("AQI")
-plt.tight_layout()
+df["PM25Group"] = pd.qcut(df["PM2.5"], 3)
+print(df.groupby("PM25Group")["AQI"].mean())
+df.boxplot("AQI", by="PM25Group")
 plt.show()
 
 plt.figure(figsize=(7, 5))
